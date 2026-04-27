@@ -22,5 +22,9 @@ spec:
       port: {{ .Values.server.directConnectionPort }}
       targetPort: {{ .Values.server.directConnectionPort }}
       protocol: TCP
+    - name: query-udp
+      port: {{ .Values.server.queryPort }}
+      targetPort: {{ .Values.server.queryPort }}
+      protocol: UDP
   selector:
     {{- include "windrose.selectorLabels" . | nindent 4 }}

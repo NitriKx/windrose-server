@@ -1,0 +1,21 @@
+{
+  "packages": {
+    "chart": {
+      "release-type": "simple",
+      "package-name": "chart",
+      "changelog-path": "chart/CHANGELOG.md",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "chart/Chart.yaml",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "container": {
+      "release-type": "simple",
+      "package-name": "",
+      "changelog-path": "container/CHANGELOG.md"
+    }
+  }
+}

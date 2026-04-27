@@ -1,0 +1,93 @@
+name: Check for Windrose Steam update
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+jobs:
+  check-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SteamCMD
+        run: |
+          sudo add-apt-repository -y multiverse
+          sudo dpkg --add-architecture i386
+          sudo apt-get update -q
+          echo steamcmd steam/question select "I AGREE" | sudo debconf-set-selections
+          echo steamcmd steam/license note '' | sudo debconf-set-selections
+          sudo apt-get install -y steamcmd
+
+      - name: Fetch current Steam build ID
+        id: steam
+        run: |
+          BUILD_ID=$(steamcmd \
+            +login anonymous \
+            +app_info_update 1 \
+            +app_info_print 4129620 \
+            +quit 2>/dev/null \
+            | grep '"buildid"' | head -1 \
+            | awk '{gsub(/"/, "", $2); print $2}')
+          if [[ -z "$BUILD_ID" || "$BUILD_ID" == "0" ]]; then
+            echo "ERROR: Failed to fetch Steam build ID"
+            exit 1
+          fi
+          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+
+      - name: Read stored build ID
+        id: stored
+        run: |
+          if [[ -f container/.steam-build-id ]]; then
+            echo "build_id=$(cat container/.steam-build-id)" >> $GITHUB_OUTPUT
+          else
+            echo "build_id=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check if update is needed
+        id: diff
+        run: |
+          if [[ "${{ steps.steam.outputs.build_id }}" == "${{ steps.stored.outputs.build_id }}" ]]; then
+            echo "No update needed (build ${{ steps.steam.outputs.build_id }})"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "New build detected: ${{ steps.stored.outputs.build_id }} → ${{ steps.steam.outputs.build_id }}"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure Git
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create update branch
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git checkout -B bump/steam-build-${{ steps.steam.outputs.build_id }}
+          echo "${{ steps.steam.outputs.build_id }}" > container/.steam-build-id
+          git add container/.steam-build-id
+          git commit -m "fix(container): bump Windrose Steam build to ${{ steps.steam.outputs.build_id }}"
+          git push --set-upstream origin bump/steam-build-${{ steps.steam.outputs.build_id }}
+
+      - name: Open pull request
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.RP_GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base main \
+            --head bump/steam-build-${{ steps.steam.outputs.build_id }} \
+            --title "chore(container): bump Windrose Steam build to ${{ steps.steam.outputs.build_id }}" \
+            --body "Windrose dedicated server Steam build updated.
+
+          **Previous build:** \`${{ steps.stored.outputs.build_id }}\`
+          **New build:** \`${{ steps.steam.outputs.build_id }}\`
+
+          Merging this PR will trigger release-please, which will create a new Docker image release."

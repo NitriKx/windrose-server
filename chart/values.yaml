@@ -1,0 +1,110 @@
+image:
+  repository: ghcr.io/nitrikx/windrose-dedicated
+  tag: latest # renovate: datasource=docker depName=ghcr.io/nitrikx/windrose-dedicated
+  pullPolicy: Always
+
+steam:
+  updateOnBoot: true
+  username: ""
+  password: ""
+  appId: "4129620"
+  platform: "windows"
+  validate: false
+
+server:
+  name: "Windrose Server"
+  # Invite code for players to join (min 6 chars, alphanumeric, case-sensitive).
+  # Leave empty to auto-generate on first boot.
+  inviteCode: ""
+  isPasswordProtected: false
+  password: ""
+  maxPlayerCount: 4
+  # Region for server discovery: EU, SEA, or CIS (EU covers both EU and NA).
+  # Leave empty for automatic selection.
+  region: "EU"
+  # Optional description shown in server metadata.
+  note: ""
+  # Direct connection settings — exposed via the LoadBalancer service.
+  directConnectionPort: 7777
+  # Steam server browser query port (UDP).
+  queryPort: 7778
+  # Override the auto-detected IP for NAT punch-through (P2pProxyAddress).
+  # Leave empty to auto-detect from the pod's network interface.
+  p2pProxyAddress: ""
+  # Extra arguments passed to the server binary (space-separated).
+  # Default "-log" enables console output. Add e.g. "-MULTIHOME=0.0.0.0" here.
+  extraArgs: "-log"
+
+world:
+  # World display name. Defaults to server.name if empty.
+  name: ""
+  # Difficulty preset applied on first boot and whenever the server restarts.
+  # One of: Easy, Medium, Hard, Custom.
+  # Use Custom to apply the individual multipliers below.
+  preset: "Medium"
+
+  # --- Difficulty multipliers (only meaningful when preset is Custom) --------
+  # Leave at 1.0 to use the preset's built-in value.
+  mobHealthMultiplier: 1.0
+  mobDamageMultiplier: 1.0
+  shipHealthMultiplier: 1.0
+  shipDamageMultiplier: 1.0
+  boardingDifficultyMultiplier: 1.0
+  # Scales enemy health/posture by player count in co-op.
+  coopStatsCorrectionModifier: 1.0
+  # Scales enemy ship stats by player count in co-op.
+  coopShipStatsCorrectionModifier: 0.0
+
+  # --- Boolean toggles -------------------------------------------------------
+  # Disable map markers for immersive exploration.
+  easyExplore: false
+  # Quest completions apply to all active players automatically.
+  coopSharedQuests: true
+
+  # --- Combat difficulty tag -------------------------------------------------
+  # One of: Easy, Normal, Hard
+  combatDifficulty: "Normal"
+
+service:
+  type: LoadBalancer
+  loadBalancerIP: ""
+  annotations: {}
+  #  external-dns.alpha.kubernetes.io/hostname: "windrose.games.p0i.re"
+  #  external-dns.alpha.kubernetes.io/target: "176.157.111.189"
+  #  external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+
+persistence:
+  # Game files downloaded by SteamCMD — re-downloadable, no backup needed.
+  # Recommend NFS data pool to avoid filling local disk (~35-40GB).
+  source:
+    size: 40Gi
+    storageClass: "csi-driver-nfs-skynetsrv-data"
+    accessMode: ReadWriteOnce
+    annotations: {}
+  # Runtime copy + world saves — back this up.
+  # Local-path for better I/O performance during gameplay.
+  runtime:
+    size: 40Gi
+    storageClass: "local-path"
+    accessMode: ReadWriteOnce
+    annotations: {}
+
+# Additional environment variables passed directly to the server container.
+# Use this for one-off overrides, e.g.:
+#   - name: WINDROSE_SERVER_ARGS
+#     value: "-log -MULTIHOME=192.168.1.10"
+extraEnv: []
+
+resources:
+  requests:
+    cpu: "2"
+    memory: 8Gi
+  limits:
+    memory: 12Gi
+
+nodeSelector:
+  kubernetes.io/os: linux
+
+tolerations: []
+
+affinity: {}
