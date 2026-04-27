@@ -1,0 +1,16 @@
+apiVersion: v2
+name: windrose
+description: Windrose dedicated game server
+type: application
+version: 1.0.0
+appVersion: "latest" # renovate: datasource=docker depName=ghcr.io/nitrikx/windrose-dedicated
+sources:
+  - https://github.com/NitriKx/skynetk8s.git
+  - https://github.com/chrisbenincasa/windrose
+keywords:
+  - helm
+  - game-server
+  - windrose
+maintainers:
+  - name: Benoît Sauvère
+    email: benoit@sauve.re

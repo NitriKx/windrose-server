@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "windrose.fullname" . }}-config
+  labels:
+    {{- include "windrose.labels" . | nindent 4 }}
+data:
+  ServerDescription.json: |
+    {
+      "Version": 1,
+      "DeploymentId": "",
+      "ServerDescription_Persistent": {
+        "PersistentServerId": "",
+        "InviteCode": {{ .Values.server.inviteCode | quote }},
+        "IsPasswordProtected": {{ .Values.server.isPasswordProtected }},
+        "Password": {{ .Values.server.password | quote }},
+        "ServerName": {{ .Values.server.name | quote }},
+        "WorldIslandId": "00000000000000000000000000000000",
+        "MaxPlayerCount": {{ .Values.server.maxPlayerCount }},
+        "P2pProxyAddress": "0.0.0.0",
+        "UserSelectedRegion": {{ .Values.server.region | quote }},
+        "UseDirectConnection": true,
+        "DirectConnectionServerAddress": {{ .Values.service.loadBalancerIP | quote }},
+        "DirectConnectionServerPort": {{ .Values.server.directConnectionPort }},
+        "DirectConnectionProxyAddress": "0.0.0.0"
+      }
+    }
