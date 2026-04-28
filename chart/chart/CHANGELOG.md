@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3](https://github.com/NitriKx/windrose-server/compare/chart-v0.2.2...chart-v0.2.3) (2026-04-28)
+
+
+### Bug Fixes
+
+* **chart:** correct Chart.yaml version to 0.2.2 and fix extra-files path in release-please config ([6492e39](https://github.com/NitriKx/windrose-server/commit/6492e392f36cac07b4ba926357f9d8cc99013c0e))
+* **chart:** update windrose-server image to 0.2.3 ([f37c580](https://github.com/NitriKx/windrose-server/commit/f37c58022831aa3f8be99e2ae1936cda91546794))
+
 ## [0.2.2](https://github.com/NitriKx/windrose-server/compare/chart-v0.2.1...chart-v0.2.2) (2026-04-28)
 
 
