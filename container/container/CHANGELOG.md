@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/NitriKx/windrose-server/compare/v0.2.4...v0.2.5) (2026-04-28)
+
+
+### Bug Fixes
+
+* **container:** export SERVER_ARGS to inner bash subshell ([6a84604](https://github.com/NitriKx/windrose-server/commit/6a84604036a754d03e738a25de1ee1a7c6e73185))
+
 ## [0.2.4](https://github.com/NitriKx/windrose-server/compare/v0.2.3...v0.2.4) (2026-04-28)
 
 
