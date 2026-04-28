@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/NitriKx/windrose-server/compare/v0.2.2...v0.2.3) (2026-04-28)
+
+
+### Bug Fixes
+
+* **container:** allow anonymous SteamCMD login when no credentials are set ([1248100](https://github.com/NitriKx/windrose-server/commit/1248100f443a2e7cee300b59d95de0ed43f9ead6))
+
 ## [0.2.2](https://github.com/NitriKx/windrose-server/compare/v0.2.1...v0.2.2) (2026-04-28)
 
 
