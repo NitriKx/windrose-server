@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/NitriKx/windrose-server/compare/chart-v0.3.0...chart-v0.3.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* **chart:** update windrose-server image to 0.2.4 ([ee159bf](https://github.com/NitriKx/windrose-server/commit/ee159bfce279e7094544003a9b51757cf57fb19a))
+
 ## [0.3.0](https://github.com/NitriKx/windrose-server/compare/chart-v0.2.3...chart-v0.3.0) (2026-04-28)
 
 
