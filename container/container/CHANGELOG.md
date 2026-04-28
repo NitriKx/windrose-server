@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.4](https://github.com/NitriKx/windrose-server/compare/v0.2.3...v0.2.4) (2026-04-28)
+
+
+### Bug Fixes
+
+* **container:** use --omit-dir-times in rsync to avoid permission error on PVC root ([90b7671](https://github.com/NitriKx/windrose-server/commit/90b76717cea2e18d858b1cba46799281358b74fb))
+* **container:** use anonymous SteamCMD login when no credentials are configured ([59ddea7](https://github.com/NitriKx/windrose-server/commit/59ddea7cca1d12b7f522fc02f332113a30205ef6))
+
 ## [0.2.3](https://github.com/NitriKx/windrose-server/compare/v0.2.2...v0.2.3) (2026-04-28)
 
 
