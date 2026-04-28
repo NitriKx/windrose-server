@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/NitriKx/windrose-server/compare/chart-v0.5.0...chart-v0.5.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* **chart:** remove gamePort indirection — server listens on directConnectionPort ([ff02ee3](https://github.com/NitriKx/windrose-server/commit/ff02ee3b0cb92984f9d6e3e6029fdb62b1a0a11d))
+
 ## [0.5.0](https://github.com/NitriKx/windrose-server/compare/chart-v0.4.0...chart-v0.5.0) (2026-04-28)
 
 
