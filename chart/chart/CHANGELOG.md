@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/NitriKx/windrose-server/compare/chart-v0.4.0...chart-v0.5.0) (2026-04-28)
+
+
+### Features
+
+* **chart:** split game port into internal gamePort and public directConnectionPort ([340a5bc](https://github.com/NitriKx/windrose-server/commit/340a5bc82da7c7034bad38d623d6c546fdf203ed))
+
 ## [0.4.0](https://github.com/NitriKx/windrose-server/compare/chart-v0.3.2...chart-v0.4.0) (2026-04-28)
 
 
