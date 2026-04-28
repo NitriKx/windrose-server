@@ -30,12 +30,18 @@ if [[ "$STEAMCMD_VALIDATE" == "1" || "${STEAMCMD_VALIDATE,,}" == "true" ]]; then
   validate_arg=" validate"
 fi
 
+if [[ -n "$STEAM_USERNAME" ]]; then
+  login_line="login ${STEAM_USERNAME} ${STEAM_PASSWORD}"
+else
+  login_line="login anonymous"
+fi
+
 cat > "$script_path" <<EOF
 @ShutdownOnFailedCommand 1
 @NoPromptForPassword 1
 @sSteamCmdForcePlatformType ${STEAMCMD_PLATFORM}
 force_install_dir ${SOURCE_DIR}
-login ${STEAM_USERNAME:-anonymous} ${STEAM_PASSWORD}
+${login_line}
 app_update ${STEAMCMD_APP_ID}${validate_arg}
 quit
 EOF
