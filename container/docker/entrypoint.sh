@@ -41,7 +41,7 @@ EOF
   exit 1
 fi
 
-rsync -a "$SOURCE_DIR"/ "$RUNTIME_DIR"/
+rsync -a --omit-dir-times "$SOURCE_DIR"/ "$RUNTIME_DIR"/
 
 if [[ ! -d "$WINEPREFIX" ]]; then
   mkdir -p "$WINEPREFIX"
