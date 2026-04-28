@@ -35,14 +35,58 @@ helm install windrose-server oci://ghcr.io/nitrikx/charts/windrose-server \
 
 ### `steam`
 
+The Windrose dedicated server tool requires a Steam account — anonymous SteamCMD login is not supported.
+
 | Key | Default | Description |
 |---|---|---|
 | `steam.updateOnBoot` | `true` | Run `steamcmd app_update` on every pod start. |
-| `steam.username` | `""` | Steam username. Leave empty for anonymous login. |
-| `steam.password` | `""` | Steam password. |
+| `steam.username` | `""` | Steam username. **Required.** Ignored when `steam.existingSecret` is set. |
+| `steam.password` | `""` | Steam password. Ignored when `steam.existingSecret` is set. |
+| `steam.existingSecret` | `""` | Name of an existing `Secret` with keys `username` and `password`. Preferred over inline credentials. |
 | `steam.appId` | `4129620` | Steam app ID for the dedicated server tool. |
 | `steam.platform` | `windows` | SteamCMD platform override. |
 | `steam.validate` | `false` | Validate all file checksums via SteamCMD. |
+
+#### Authentication setup
+
+**Option A — existing secret (recommended):**
+
+```sh
+kubectl create secret generic windrose-steam \
+  --namespace game-servers \
+  --from-literal=username='your-steam-user' \
+  --from-literal=password='your-steam-password'
+```
+
+```yaml
+steam:
+  existingSecret: "windrose-steam"
+```
+
+**Option B — inline values (not recommended for production):**
+
+```yaml
+steam:
+  username: "your-steam-user"
+  password: "your-steam-password"
+```
+
+#### Steam Guard (2FA)
+
+If Steam Guard is enabled on the account, SteamCMD will pause on **first boot** waiting for a verification code. Exec into the pod to enter it:
+
+```sh
+kubectl exec -it -n game-servers deploy/windrose-server -- bash
+# Inside the pod, run SteamCMD manually:
+HOME=/srv/windrose/runtime/steamcmd /opt/steamcmd/steamcmd.sh \
+  +login YOUR_USERNAME \
+  +quit
+# Enter the Steam Guard code when prompted, then exit
+```
+
+After this one-time login, SteamCMD caches a token at `/srv/windrose/runtime/steamcmd` (on the persistent `runtime` PVC). Subsequent pod restarts reuse the token automatically.
+
+> **Tip:** Use a dedicated Steam account with Steam Guard disabled to avoid the interactive step entirely.
 
 ### `server`
 

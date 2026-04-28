@@ -67,11 +67,26 @@ volumes:
 | Variable | Default | Description |
 |---|---|---|
 | `STEAM_UPDATE_ON_BOOT` | `false` | Run `steamcmd app_update` on every container start. |
-| `STEAM_USERNAME` | `""` | Steam username. Leave empty for anonymous login (sufficient for the dedicated server tool). |
+| `STEAM_USERNAME` | `""` | Steam username. **Required** — the Windrose dedicated server tool is not available via anonymous login. |
 | `STEAM_PASSWORD` | `""` | Steam password. |
 | `STEAMCMD_APP_ID` | `4129620` | Steam app ID for the dedicated server. |
 | `STEAMCMD_PLATFORM` | `windows` | SteamCMD platform override. |
 | `STEAMCMD_VALIDATE` | `false` | Pass `validate` to SteamCMD to verify all file checksums. |
+
+#### Steam authentication and Steam Guard
+
+The Windrose dedicated server tool requires a Steam account. Set `STEAM_USERNAME` and `STEAM_PASSWORD` before starting the container.
+
+**If Steam Guard (2FA) is enabled on your account**, SteamCMD will pause on first boot waiting for a code. Attach to the container to enter it:
+
+```sh
+docker attach windrose
+# Enter the Steam Guard code when prompted, then Ctrl+P Ctrl+Q to detach
+```
+
+Once authenticated, SteamCMD stores a login token in the `runtime` volume (`/srv/windrose/runtime/steamcmd`). All subsequent starts reuse the cached token — no code required again as long as the volume persists.
+
+> **Tip:** Use a dedicated Steam account with Steam Guard disabled to avoid this entirely.
 
 ### Server
 

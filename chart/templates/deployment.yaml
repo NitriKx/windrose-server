@@ -57,9 +57,23 @@ spec:
             - name: STEAM_UPDATE_ON_BOOT
               value: {{ .Values.steam.updateOnBoot | quote }}
             - name: STEAM_USERNAME
+              {{- if .Values.steam.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.steam.existingSecret }}
+                  key: username
+              {{- else }}
               value: {{ .Values.steam.username | quote }}
+              {{- end }}
             - name: STEAM_PASSWORD
+              {{- if .Values.steam.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.steam.existingSecret }}
+                  key: password
+              {{- else }}
               value: {{ .Values.steam.password | quote }}
+              {{- end }}
             - name: STEAMCMD_APP_ID
               value: {{ .Values.steam.appId | quote }}
             - name: STEAMCMD_PLATFORM

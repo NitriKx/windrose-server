@@ -7,6 +7,9 @@ steam:
   updateOnBoot: true
   username: ""
   password: ""
+  # -- Name of an existing secret with keys `username` and `password`.
+  # When set, steam.username and steam.password are ignored.
+  existingSecret: ""
   appId: "4129620"
   platform: "windows"
   validate: false
