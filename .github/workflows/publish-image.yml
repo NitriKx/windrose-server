@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Resolve version
         id: version
@@ -77,4 +79,3 @@ jobs:
           git commit -m "fix(chart): update windrose-server image to ${VERSION}"
           git pull --rebase origin main
           git push origin HEAD:main
-          gh workflow run release-please.yml --repo "${{ github.repository }}"
