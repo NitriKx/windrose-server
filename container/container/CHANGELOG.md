@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/NitriKx/windrose-server/compare/v0.3.0...v0.4.0) (2026-04-28)
+
+
+### Features
+
+* **container,chart:** single runtime PVC, dedicated saves PVC ([660bf67](https://github.com/NitriKx/windrose-server/commit/660bf67cc82842b3e196375315e1bff58a4143d8))
+
 ## [0.3.0](https://github.com/NitriKx/windrose-server/compare/v0.2.5...v0.3.0) (2026-04-28)
 
 
