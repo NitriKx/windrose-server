@@ -16,15 +16,15 @@ spec:
   ports:
     - name: game-udp
       port: {{ .Values.server.directConnectionPort }}
-      targetPort: {{ .Values.server.directConnectionPort }}
+      targetPort: {{ .Values.server.gamePort }}
       protocol: UDP
     - name: game-tcp
       port: {{ .Values.server.directConnectionPort }}
-      targetPort: {{ .Values.server.directConnectionPort }}
+      targetPort: {{ .Values.server.gamePort }}
       protocol: TCP
     - name: query-udp
       port: {{ .Values.server.queryPort }}
-      targetPort: {{ .Values.server.queryPort }}
+      targetPort: {{ .Values.server.internalQueryPort }}
       protocol: UDP
   selector:
     {{- include "windrose.selectorLabels" . | nindent 4 }}
