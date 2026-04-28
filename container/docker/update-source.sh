@@ -16,11 +16,6 @@ if [[ "$STEAM_UPDATE_ON_BOOT" != "1" && "${STEAM_UPDATE_ON_BOOT,,}" != "true" ]]
   exit 0
 fi
 
-if [[ -z "$STEAM_USERNAME" || -z "$STEAM_PASSWORD" ]]; then
-  echo "SteamCMD update check skipped: set STEAM_USERNAME and STEAM_PASSWORD to enable authenticated updates." >&2
-  exit 0
-fi
-
 if [[ ! -x "$STEAMCMD_DIR/steamcmd.sh" ]]; then
   echo "SteamCMD update check skipped: $STEAMCMD_DIR/steamcmd.sh was not found." >&2
   exit 0
@@ -40,7 +35,7 @@ cat > "$script_path" <<EOF
 @NoPromptForPassword 1
 @sSteamCmdForcePlatformType ${STEAMCMD_PLATFORM}
 force_install_dir ${SOURCE_DIR}
-login ${STEAM_USERNAME} ${STEAM_PASSWORD}
+login ${STEAM_USERNAME:-anonymous} ${STEAM_PASSWORD}
 app_update ${STEAMCMD_APP_ID}${validate_arg}
 quit
 EOF
