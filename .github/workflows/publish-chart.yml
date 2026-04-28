@@ -28,6 +28,56 @@ jobs:
         with:
           version: latest
 
+      - name: Update ArtifactHub changelog
+        run: |
+          python3 - <<'EOF'
+          import re
+
+          def parse_changelog(path):
+              with open(path) as f:
+                  content = f.read()
+              sections = re.split(r'^## ', content, flags=re.MULTILINE)
+              if len(sections) < 2:
+                  return [{'kind': 'changed', 'description': 'Chart update'}]
+              latest = sections[1]
+              changes = []
+              kind = 'changed'
+              kind_map = {
+                  'feature': 'added', 'fix': 'fixed', 'security': 'security',
+                  'deprecat': 'deprecated', 'remov': 'removed',
+              }
+              for line in latest.split('\n'):
+                  if line.startswith('### '):
+                      h = line[4:].lower()
+                      kind = next((v for k, v in kind_map.items() if k in h), 'changed')
+                  elif line.startswith('* '):
+                      desc = line[2:].strip()
+                      desc = re.sub(r'\s*\(\[[\da-f]+\]\([^)]+\)\)', '', desc)
+                      desc = re.sub(r'\s*\(\[#\d+\]\([^)]+\)\)', '', desc)
+                      desc = re.sub(r'^\*\*[^*]+\*\*:\s*', '', desc)
+                      desc = desc.strip().strip('"\'')
+                      if desc:
+                          changes.append({'kind': kind, 'description': desc})
+              return changes or [{'kind': 'changed', 'description': 'Chart update'}]
+
+          changes = parse_changelog('chart/chart/CHANGELOG.md')
+          block = '\n'.join(
+              f'    - kind: {c["kind"]}\n      description: "{c["description"]}"'
+              for c in changes
+          )
+
+          with open('chart/Chart.yaml') as f:
+              content = f.read()
+          content = re.sub(
+              r'(  artifacthub\.io/changes: \|)(\n(?:    .*\n?)*)',
+              lambda m: f'{m.group(1)}\n{block}\n',
+              content
+          )
+          with open('chart/Chart.yaml', 'w') as f:
+              f.write(content)
+          print(block)
+          EOF
+
       - name: Package chart
         run: helm package chart/ --destination .cr-release-packages/
 
