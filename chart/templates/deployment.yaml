@@ -135,13 +135,13 @@ spec:
           {{- end }}
           ports:
             - name: game-udp
-              containerPort: {{ .Values.server.gamePort }}
+              containerPort: {{ .Values.server.directConnectionPort }}
               protocol: UDP
             - name: game-tcp
-              containerPort: {{ .Values.server.gamePort }}
+              containerPort: {{ .Values.server.directConnectionPort }}
               protocol: TCP
             - name: query-udp
-              containerPort: {{ .Values.server.internalQueryPort }}
+              containerPort: {{ .Values.server.queryPort }}
               protocol: UDP
           startupProbe:
             exec:

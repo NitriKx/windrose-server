@@ -27,16 +27,11 @@ server:
   region: "EU"
   # Optional description shown in server metadata.
   note: ""
-  # Internal port the server binary listens on inside the container.
-  # Change this only if you pass a custom -Port= arg via extraArgs.
-  gamePort: 7777
-  # Public-facing game port exposed by the LoadBalancer service.
-  # Set this to whatever port you open on your router.
-  # The service maps this → gamePort, and clients are told to connect here.
+  # Game port. The server binary listens on this port AND it is exposed by
+  # the LoadBalancer service. Set this to whatever port you open on your
+  # router. Clients are told to connect here via DirectConnectionServerPort.
   directConnectionPort: 7777
-  # Internal Steam server browser query port (gamePort + 1 by convention).
-  internalQueryPort: 7778
-  # Public-facing query port exposed by the LoadBalancer service.
+  # Steam server browser query port (directConnectionPort + 1 by convention).
   queryPort: 7778
   # Override the auto-detected IP for NAT punch-through (P2pProxyAddress).
   # Leave empty to auto-detect from the pod's network interface.
