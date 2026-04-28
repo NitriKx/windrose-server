@@ -7,7 +7,7 @@ Deploys the [Windrose](https://store.steampowered.com/app/3041230/Windrose/) ded
 ## Installing
 
 ```sh
-helm install windrose oci://ghcr.io/nitrikx/charts/windrose \
+helm install windrose-server oci://ghcr.io/nitrikx/charts/windrose-server \
   --namespace game-servers --create-namespace \
   --set server.name="My Windrose Server" \
   --set service.loadBalancerIP=192.168.1.100
@@ -16,7 +16,7 @@ helm install windrose oci://ghcr.io/nitrikx/charts/windrose \
 Or with a values file:
 
 ```sh
-helm install windrose oci://ghcr.io/nitrikx/charts/windrose \
+helm install windrose-server oci://ghcr.io/nitrikx/charts/windrose-server \
   --namespace game-servers --create-namespace \
   -f my-values.yaml
 ```

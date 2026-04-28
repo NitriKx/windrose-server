@@ -1,5 +1,5 @@
 apiVersion: v2
-name: windrose
+name: windrose-server
 description: Windrose dedicated game server — runs the Windows server binary via Wine with SteamCMD auto-update
 type: application
 version: 0.1.0
@@ -7,7 +7,6 @@ appVersion: "0.2.1"
 icon: https://cdn2.steamgriddb.com/icon/b0be5b08d3aa69a892a9cf91f44b6c38.ico
 sources:
   - https://github.com/NitriKx/windrose-server
-  - https://github.com/chrisbenincasa/tunarr
 keywords:
   - game-server
   - windrose
