@@ -84,17 +84,17 @@ service:
   #  external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 
 persistence:
-  # Game files downloaded by SteamCMD — re-downloadable, no backup needed.
-  # Recommend NFS data pool to avoid filling local disk (~35-40GB).
-  source:
-    size: 40Gi
-    storageClass: "csi-driver-nfs-skynetsrv-data"
-    accessMode: ReadWriteOnce
-    annotations: {}
-  # Runtime copy + world saves — back this up.
+  # Game files downloaded by SteamCMD + Wine prefix + runtime data.
   # Local-path for better I/O performance during gameplay.
   runtime:
     size: 40Gi
+    storageClass: "local-path"
+    accessMode: ReadWriteOnce
+    annotations: {}
+  # World saves only — small, back this up.
+  # Annotated with k8up.io/backup: "true" automatically by the chart.
+  saves:
+    size: 1Gi
     storageClass: "local-path"
     accessMode: ReadWriteOnce
     annotations: {}
@@ -104,6 +104,8 @@ persistence:
 #   - name: WINDROSE_SERVER_ARGS
 #     value: "-log -MULTIHOME=192.168.1.10"
 extraEnv: []
+
+extraManifests: []
 
 resources:
   requests:

@@ -80,8 +80,6 @@ spec:
               value: {{ .Values.steam.platform | quote }}
             - name: STEAMCMD_VALIDATE
               value: {{ .Values.steam.validate | quote }}
-            - name: SOURCE_DIR
-              value: /srv/windrose/source
             - name: RUNTIME_DIR
               value: /srv/windrose/runtime
             - name: STEAM_STATE_DIR
@@ -166,19 +164,19 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
-            - name: source
-              mountPath: /srv/windrose/source
             - name: runtime
               mountPath: /srv/windrose/runtime
+            - name: saves
+              mountPath: /srv/windrose/runtime/R5/Saved/SaveProfiles
             - name: config
               mountPath: /srv/windrose/config
       volumes:
-        - name: source
-          persistentVolumeClaim:
-            claimName: {{ include "windrose.fullname" . }}-source
         - name: runtime
           persistentVolumeClaim:
             claimName: {{ include "windrose.fullname" . }}-runtime
+        - name: saves
+          persistentVolumeClaim:
+            claimName: {{ include "windrose.fullname" . }}-saves
         - name: config-template
           configMap:
             name: {{ include "windrose.fullname" . }}-config

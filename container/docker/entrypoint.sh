@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE_DIR="${SOURCE_DIR:-/srv/windrose/source}"
 RUNTIME_DIR="${RUNTIME_DIR:-/srv/windrose/runtime}"
 CONFIG_DIR="${CONFIG_DIR:-/srv/windrose/config}"
 LOG_DIR="${LOG_DIR:-/srv/windrose/logs}"
@@ -11,37 +10,35 @@ EXECUTABLE="${WINDROSE_EXECUTABLE:-R5/Binaries/Win64/WindroseServer-Win64-Shippi
 WINE_COMMAND="${WINDROSE_WINE_COMMAND:-wine}"
 SERVER_ARGS="${WINDROSE_SERVER_ARGS:--log}"
 
-mkdir -p "$SOURCE_DIR" "$RUNTIME_DIR" "$CONFIG_DIR" "$LOG_DIR" "$STEAM_STATE_DIR"
+mkdir -p "$RUNTIME_DIR" "$CONFIG_DIR" "$LOG_DIR" "$STEAM_STATE_DIR"
 
 /usr/local/bin/update-source.sh
 
-if [[ ! -f "$SOURCE_DIR/$SOURCE_EXECUTABLE" ]]; then
+if [[ ! -f "$RUNTIME_DIR/$SOURCE_EXECUTABLE" ]]; then
   cat <<EOF
 Windrose dedicated-server files were not found.
 
 Expected:
-  $SOURCE_DIR/$SOURCE_EXECUTABLE
+  $RUNTIME_DIR/$SOURCE_EXECUTABLE
 
-Copy the Windows dedicated-server files into the mounted source directory,
-then restart the container.
+SteamCMD may not have run yet or failed. Enable STEAM_UPDATE_ON_BOOT and
+restart the container.
 EOF
   exit 1
 fi
 
-if [[ ! -f "$SOURCE_DIR/$EXECUTABLE" ]]; then
+if [[ ! -f "$RUNTIME_DIR/$EXECUTABLE" ]]; then
   cat <<EOF
 Windrose dedicated-server binary was not found.
 
 Expected:
-  $SOURCE_DIR/$EXECUTABLE
+  $RUNTIME_DIR/$EXECUTABLE
 
-The source directory appears incomplete. Re-copy the full Steam Tools install
-contents into the mounted source directory, then restart the container.
+The runtime directory appears incomplete. Re-run with STEAM_UPDATE_ON_BOOT=true
+to re-download the game files.
 EOF
   exit 1
 fi
-
-rsync -a --omit-dir-times "$SOURCE_DIR"/ "$RUNTIME_DIR"/
 
 if [[ ! -d "$WINEPREFIX" ]]; then
   mkdir -p "$WINEPREFIX"
