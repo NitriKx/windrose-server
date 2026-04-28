@@ -97,6 +97,12 @@ spec:
               value: {{ .Values.server.note | quote }}
             - name: WINDROSE_P2P_PROXY_ADDRESS
               value: {{ .Values.server.p2pProxyAddress | quote }}
+            - name: WINDROSE_REGION
+              value: {{ .Values.server.region | quote }}
+            - name: WINDROSE_DIRECT_CONNECTION_ADDRESS
+              value: {{ .Values.server.directConnectionAddress | quote }}
+            - name: WINDROSE_DIRECT_CONNECTION_PORT
+              value: {{ .Values.server.directConnectionPort | quote }}
             - name: WINDROSE_SERVER_ARGS
               value: {{ .Values.server.extraArgs | quote }}
             # World settings
@@ -138,14 +144,20 @@ spec:
               containerPort: {{ .Values.server.queryPort }}
               protocol: UDP
           startupProbe:
-            tcpSocket:
-              port: game-tcp
+            exec:
+              command:
+                - test
+                - -f
+                - /srv/windrose/runtime/R5/ServerDescription.json
             initialDelaySeconds: 60
-            failureThreshold: 20
+            failureThreshold: 40
             periodSeconds: 15
           livenessProbe:
-            tcpSocket:
-              port: game-tcp
+            exec:
+              command:
+                - pgrep
+                - -f
+                - WindroseServer
             initialDelaySeconds: 0
             periodSeconds: 30
             failureThreshold: 3

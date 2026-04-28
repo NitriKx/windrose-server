@@ -34,6 +34,11 @@ server:
   # Override the auto-detected IP for NAT punch-through (P2pProxyAddress).
   # Leave empty to auto-detect from the pod's network interface.
   p2pProxyAddress: ""
+  # Direct connection via public IP — enables UseDirectConnection in
+  # ServerDescription.json so clients can bypass the P2P relay.
+  # Set to the externally-routable IP of the server (e.g. your WAN IP).
+  # Leave empty to disable direct connection (P2P relay only).
+  directConnectionAddress: ""
   # Extra arguments passed to the server binary (space-separated).
   # Default "-log" enables console output. Add e.g. "-MULTIHOME=0.0.0.0" here.
   extraArgs: "-log"

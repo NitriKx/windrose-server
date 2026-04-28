@@ -169,6 +169,28 @@ if server_note:
 elif "Note" not in server_desc:
     server_desc["Note"] = ""
 
+# Region for server discovery (EU, SEA, CIS). Leave empty for automatic.
+region = _non_empty_string(os.getenv("WINDROSE_REGION"))
+if region:
+    server_desc["UserSelectedRegion"] = region
+
+# Direct connection — expose the server's public IP and port so clients can
+# bypass the P2P relay.  Set WINDROSE_DIRECT_CONNECTION_ADDRESS to the
+# externally-routable IP.  Leave unset to keep UseDirectConnection false.
+direct_addr = _non_empty_string(os.getenv("WINDROSE_DIRECT_CONNECTION_ADDRESS"))
+direct_port_raw = _non_empty_string(os.getenv("WINDROSE_DIRECT_CONNECTION_PORT"))
+direct_port = int(direct_port_raw) if direct_port_raw.isdigit() else -1
+if direct_addr and direct_port > 0:
+    server_desc["UseDirectConnection"] = True
+    server_desc["DirectConnectionServerAddress"] = direct_addr
+    server_desc["DirectConnectionServerPort"] = direct_port
+    server_desc["DirectConnectionProxyAddress"] = direct_addr
+else:
+    server_desc["UseDirectConnection"] = False
+    server_desc["DirectConnectionServerAddress"] = ""
+    server_desc["DirectConnectionServerPort"] = -1
+    server_desc["DirectConnectionProxyAddress"] = "0.0.0.0"
+
 # ---------------------------------------------------------------------------
 # WorldDescription.json
 # ---------------------------------------------------------------------------
@@ -236,6 +258,11 @@ if RUNTIME_R5_SERVER_PATH.exists():
     runtime_r5_desc["WorldIslandId"] = world_id
     runtime_r5_desc["MaxPlayerCount"] = int(server_desc.get("MaxPlayerCount") or runtime_r5_desc.get("MaxPlayerCount") or 4)
     runtime_r5_desc["P2pProxyAddress"] = server_desc.get("P2pProxyAddress") or runtime_r5_desc.get("P2pProxyAddress") or "0.0.0.0"
+    runtime_r5_desc["UserSelectedRegion"] = server_desc.get("UserSelectedRegion") or runtime_r5_desc.get("UserSelectedRegion") or ""
+    runtime_r5_desc["UseDirectConnection"] = bool(server_desc.get("UseDirectConnection"))
+    runtime_r5_desc["DirectConnectionServerAddress"] = server_desc.get("DirectConnectionServerAddress") or ""
+    runtime_r5_desc["DirectConnectionServerPort"] = int(server_desc.get("DirectConnectionServerPort") or -1)
+    runtime_r5_desc["DirectConnectionProxyAddress"] = server_desc.get("DirectConnectionProxyAddress") or "0.0.0.0"
     RUNTIME_R5_SERVER_PATH.write_text(json.dumps(runtime_r5_doc, indent=2) + "\n", encoding="utf-8")
     SERVER_PATH.write_text(json.dumps(runtime_r5_doc, indent=2) + "\n", encoding="utf-8")
     RUNTIME_SERVER_PATH.write_text(json.dumps(runtime_r5_doc, indent=2) + "\n", encoding="utf-8")
