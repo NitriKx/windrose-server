@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/NitriKx/windrose-server/compare/chart-v0.3.2...chart-v0.4.0) (2026-04-28)
+
+
+### Features
+
+* **container:** add region, direct connection, and p2p proxy address config ([199f522](https://github.com/NitriKx/windrose-server/commit/199f52238d58bc6c2c786dd257569cf17605c97d))
+
 ## [0.3.2](https://github.com/NitriKx/windrose-server/compare/chart-v0.3.1...chart-v0.3.2) (2026-04-28)
 
 
