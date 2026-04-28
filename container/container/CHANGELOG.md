@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/NitriKx/windrose-server/compare/v0.2.5...v0.3.0) (2026-04-28)
+
+
+### Features
+
+* **container:** add region, direct connection, and p2p proxy address config ([199f522](https://github.com/NitriKx/windrose-server/commit/199f52238d58bc6c2c786dd257569cf17605c97d))
+
 ## [0.2.5](https://github.com/NitriKx/windrose-server/compare/v0.2.4...v0.2.5) (2026-04-28)
 
 
