@@ -4,7 +4,7 @@ Unofficial Docker image for the [Windrose](https://store.steampowered.com/app/30
 
 Runs the Windows server binary via Wine + SteamCMD on Linux.
 
-**Image:** `ghcr.io/nitrikx/windrose-dedicated`
+**Image:** `ghcr.io/nitrikx/windrose-server`
 
 ---
 
@@ -19,7 +19,7 @@ docker run -d \
   -v windrose-source:/srv/windrose/source \
   -v windrose-runtime:/srv/windrose/runtime \
   -e WINDROSE_SERVER_ARGS="-log" \
-  ghcr.io/nitrikx/windrose-dedicated:latest
+  ghcr.io/nitrikx/windrose-server:latest
 ```
 
 > **Note:** The server download is ~35 GB. The `source` volume needs enough free space on the host.
@@ -29,7 +29,7 @@ docker run -d \
 ```yaml
 services:
   windrose:
-    image: ghcr.io/nitrikx/windrose-dedicated:latest
+    image: ghcr.io/nitrikx/windrose-server:latest
     restart: unless-stopped
     ports:
       - "7777:7777/udp"

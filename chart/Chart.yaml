@@ -3,7 +3,7 @@ name: windrose
 description: Windrose dedicated game server — runs the Windows server binary via Wine with SteamCMD auto-update
 type: application
 version: 0.1.0
-appVersion: "latest" # renovate: datasource=docker depName=ghcr.io/nitrikx/windrose-dedicated
+appVersion: "latest" # renovate: datasource=docker depName=ghcr.io/nitrikx/windrose-server
 icon: https://cdn2.steamgriddb.com/icon/b0be5b08d3aa69a892a9cf91f44b6c38.ico
 sources:
   - https://github.com/NitriKx/windrose-server
@@ -19,8 +19,8 @@ maintainers:
 annotations:
   artifacthub.io/license: MIT
   artifacthub.io/images: |
-    - name: windrose-dedicated
-      image: ghcr.io/nitrikx/windrose-dedicated:latest
+    - name: windrose-server
+      image: ghcr.io/nitrikx/windrose-server:latest
   artifacthub.io/changes: |
     - kind: added
       description: Initial release

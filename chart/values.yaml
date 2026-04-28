@@ -1,6 +1,6 @@
 image:
-  repository: ghcr.io/nitrikx/windrose-dedicated
-  tag: latest # renovate: datasource=docker depName=ghcr.io/nitrikx/windrose-dedicated
+  repository: ghcr.io/nitrikx/windrose-server
+  tag: latest # renovate: datasource=docker depName=ghcr.io/nitrikx/windrose-server
   pullPolicy: Always
 
 steam:

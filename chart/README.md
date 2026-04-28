@@ -1,6 +1,6 @@
 # windrose Helm chart
 
-Deploys the [Windrose](https://store.steampowered.com/app/3041230/Windrose/) dedicated server on Kubernetes using the `ghcr.io/nitrikx/windrose-dedicated` Docker image.
+Deploys the [Windrose](https://store.steampowered.com/app/3041230/Windrose/) dedicated server on Kubernetes using the `ghcr.io/nitrikx/windrose-server` Docker image.
 
 ---
 
@@ -29,7 +29,7 @@ helm install windrose oci://ghcr.io/nitrikx/charts/windrose \
 
 | Key | Default | Description |
 |---|---|---|
-| `image.repository` | `ghcr.io/nitrikx/windrose-dedicated` | Docker image repository. |
+| `image.repository` | `ghcr.io/nitrikx/windrose-server` | Docker image repository. |
 | `image.tag` | `latest` | Image tag. Pin to a specific version in production. |
 | `image.pullPolicy` | `Always` | Image pull policy. |
 
