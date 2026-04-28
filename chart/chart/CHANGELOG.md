@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/NitriKx/windrose-server/compare/chart-v0.2.3...chart-v0.3.0) (2026-04-28)
+
+
+### Features
+
+* **chart:** support existingSecret for Steam credentials, document auth flow ([099272e](https://github.com/NitriKx/windrose-server/commit/099272e79638abf687308227b26d4743a13f5975))
+
 ## [0.2.3](https://github.com/NitriKx/windrose-server/compare/chart-v0.2.2...chart-v0.2.3) (2026-04-28)
 
 
