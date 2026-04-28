@@ -48,7 +48,7 @@ if [[ ! -d "$WINEPREFIX" ]]; then
 fi
 
 cd "$RUNTIME_DIR"
-export WINEPREFIX WINEARCH DISPLAY WINE_COMMAND EXECUTABLE
+export WINEPREFIX WINEARCH DISPLAY WINE_COMMAND EXECUTABLE SERVER_ARGS
 exec xvfb-run -a bash -lc '
   set -euo pipefail
   wineboot -u >/dev/null 2>&1 || true
