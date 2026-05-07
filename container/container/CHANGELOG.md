@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/NitriKx/windrose-server/compare/v0.4.1...v0.4.2) (2026-05-07)
+
+
+### Bug Fixes
+
+* **container:** bump Windrose Steam build to 23065343 ([53578cb](https://github.com/NitriKx/windrose-server/commit/53578cb5b19706490e088518217e5df62438cd96))
+
 ## [0.4.1](https://github.com/NitriKx/windrose-server/compare/v0.4.0...v0.4.1) (2026-05-01)
 
 
